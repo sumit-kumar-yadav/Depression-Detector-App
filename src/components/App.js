@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Home, Navbar, Page404 } from "./";
+import { Home, Navbar, Login, Page404 } from "./";
 
 class App extends Component {
   render() {
@@ -10,6 +10,7 @@ class App extends Component {
           <Navbar />
           <Routes>
             <Route exact path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             <Route path="*" element={<Page404 />} />
           </Routes>
         </div>
