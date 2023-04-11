@@ -1,7 +1,15 @@
-import { LOGIN_START, LOGIN_FAILED, LOGIN_SUCCESS } from "./actionTypes";
+import {
+  LOGIN_START,
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
+  SIGNUP_START,
+  SIGNUP_FAILED,
+  SIGNUP_SUCCESS,
+} from "./actionTypes";
 import { APIUrls } from "../helpers/urls";
 import { getFormBody } from "../helpers/utils";
 
+// Login
 export function startLogin() {
   return {
     type: LOGIN_START,
@@ -36,12 +44,63 @@ export function login(email, password) {
       .then((data) => {
         console.log("data", data);
         if (data.error) {
-          dispatch(loginFailed(data.message));
+          dispatch(loginFailed(data.message || data.body[0].message));
           return;
         }
-        // else
-        // dispatch action to save user
+        // else dispatch action to save user
         dispatch(loginSuccess(data.body));
       });
+  };
+}
+
+// Sign up
+export function signup(formDataObj) {
+  return (dispatch) => {
+    dispatch(startSingup());
+    const url = APIUrls.signup();
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: getFormBody({
+        first_name: formDataObj.firstName,
+        last_name: formDataObj.lastName,
+        email: formDataObj.email,
+        password: formDataObj.password,
+        confirm_password: formDataObj.confirmPassword,
+        timezone: formDataObj.timezone,
+        gender: formDataObj.gender,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("data", data);
+        if (data.error) {
+          dispatch(signupFailed(data.message || data.body[0].message));
+          return;
+        }
+        dispatch(signupSuccessful(data.body));
+      });
+  };
+}
+
+export function startSingup() {
+  return {
+    type: SIGNUP_START,
+  };
+}
+
+export function signupFailed(error) {
+  return {
+    type: SIGNUP_FAILED,
+    error,
+  };
+}
+
+export function signupSuccessful(user) {
+  return {
+    type: SIGNUP_SUCCESS,
+    user,
   };
 }
