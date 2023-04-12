@@ -1,33 +1,60 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { logoutUser } from "../../actions/auth";
 import "./navbar.css";
 
-function Navbar(props) {
-  return (
-    <nav className="nav">
-      <div className="left-div">
-        <Link to="/">
-          <img src="" style={{ width: 50 }} alt="logo" />
-        </Link>
-      </div>
+class Navbar extends React.Component {
+  logOut = () => {
+    localStorage.removeItem("authToken");
+    this.props.dispatch(logoutUser());
+  };
 
-      <div className="right-nav">
-        <div className="nav-links">
-          <ul>
-            <li>
-              <Link to="/login">Log in</Link>
-            </li>
-            <li>
-              <Link to="/logout">Log out</Link>
-            </li>
-            <li>
-              <Link to="/signup">Register</Link>
-            </li>
-          </ul>
+  render() {
+    const { auth } = this.props;
+    return (
+      <nav className="nav">
+        <div className="left-div">
+          <Link to="/">
+            <img src="" style={{ width: 50 }} alt="logo" />
+          </Link>
         </div>
-      </div>
-    </nav>
-  );
+        <div className="right-nav">
+          {auth.isLoggedin && (
+            <div className="user">
+              <Link to="/settings">
+                <img src="" alt="user-dp" id="user-dp" />
+              </Link>
+              <span>{auth.user.firstName}</span>
+            </div>
+          )}
+
+          <div className="nav-links">
+            <ul>
+              {!auth.isLoggedin && (
+                <li>
+                  <Link to="/login">Log in</Link>
+                </li>
+              )}
+
+              {auth.isLoggedin && <li onClick={this.logOut}>Log out</li>}
+
+              {!auth.isLoggedin && (
+                <li>
+                  <Link to="/signup">Register</Link>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 }
 
-export default Navbar;
+function mapStateToProps(state) {
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps)(Navbar);

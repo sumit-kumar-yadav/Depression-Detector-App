@@ -13,6 +13,13 @@
   font-size: 40px;
   color: #ece60e;
 }
+nav #user-dp {
+  height: 40px;
+}
+nav .user {
+  display: flex;
+  align-items: center;
+}
 nav span {
   margin-left: 10px;
 }

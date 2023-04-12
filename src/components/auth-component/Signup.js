@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { signup } from "../../actions/auth";
+import { signup, clearAuthState } from "../../actions/auth";
 
 class Signup extends Component {
   constructor(props) {
@@ -14,6 +14,10 @@ class Signup extends Component {
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       gender: "",
     };
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(clearAuthState());
   }
 
   handleInputChange = (field, value) => {
