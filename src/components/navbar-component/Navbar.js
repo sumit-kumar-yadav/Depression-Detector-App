@@ -22,7 +22,7 @@ class Navbar extends React.Component {
         <div className="right-nav">
           {auth.isLoggedin && (
             <div className="user">
-              <Link to="/settings">
+              <Link to="/profile">
                 <img src="" alt="user-dp" id="user-dp" />
               </Link>
               <span>{auth.user.firstName}</span>

@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { connect } from "react-redux";
 import { authenticateUser } from "../actions/auth";
-import { Home, Navbar, Login, Signup, Page404 } from "./";
+import { Home, Navbar, Login, Signup, PrivateRoute, Page404 } from "./";
+
+// Dummy profile component
+const Profile = () => <div>Welcome to Profile page</div>;
 
 class App extends Component {
   componentDidMount() {
@@ -25,6 +28,7 @@ class App extends Component {
   }
 
   render() {
+    const { auth } = this.props;
     return (
       <Router>
         <div>
@@ -33,6 +37,9 @@ class App extends Component {
             <Route exact path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route element={<PrivateRoute isLoggedin={auth.isLoggedin} />}>
+              <Route path="/profile" element={<Profile />} />
+            </Route>
             <Route path="*" element={<Page404 />} />
           </Routes>
         </div>
