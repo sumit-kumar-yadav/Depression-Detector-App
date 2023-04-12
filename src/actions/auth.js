@@ -42,13 +42,14 @@ export function login(email, password) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         if (data.error) {
           dispatch(loginFailed(data.message || data.body[0].message));
           return;
         }
         // else dispatch action to save user
         dispatch(loginSuccess(data.body));
+        // Save the token in local storage
+        localStorage.setItem("authToken", data.body.token);
       });
   };
 }
@@ -75,12 +76,13 @@ export function signup(formDataObj) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("data", data);
         if (data.error) {
           dispatch(signupFailed(data.message || data.body[0].message));
           return;
         }
         dispatch(signupSuccessful(data.body));
+        // Save the token in local storage
+        localStorage.setItem("authToken", data.body.token);
       });
   };
 }
