@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import "./auth.css";
 import { login, clearAuthState } from "../../actions/auth";
+
+// This HOC returns a functional component which can use the useLocation() to get the history
+// We can't use useLocation() in call component, hence this we wrapped our Login component with it.
+const withRouter = (WrappedComponent) => (props) => {
+  let location = useLocation();
+  return <WrappedComponent location={location} {...props} />;
+};
 
 class Login extends Component {
   constructor(props) {
@@ -31,7 +38,6 @@ class Login extends Component {
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    console.log("this.state", this.state);
     const { email, password } = this.state;
 
     if (email && password) {
@@ -42,9 +48,10 @@ class Login extends Component {
   render() {
     const { error, inProgress, isLoggedin } = this.props.auth;
 
-    if (isLoggedin) {
-      return <Navigate to="/" />;
-    }
+    const { location } = this.props; // Received from the WrappedComponent.
+    const path = location.state?.from?.pathname || "/"; // Get the path where user was visiting before login
+
+    if (isLoggedin) return <Navigate to={path} />;
 
     return (
       <form className="login-form">
@@ -89,4 +96,5 @@ function mapStateToProps(state) {
     auth: state.auth,
   };
 }
-export default connect(mapStateToProps)(Login);
+
+export default withRouter(connect(mapStateToProps)(Login));
