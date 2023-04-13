@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { signup, clearAuthState } from "../../actions/auth";
+import { UserDetails } from "../index";
 
 class Signup extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class Signup extends Component {
     const { error, inProgress, isLoggedin } = this.props.auth;
 
     if (isLoggedin) {
-      return <Navigate to="/" />;
+      return <UserDetails />;
     }
 
     return (
