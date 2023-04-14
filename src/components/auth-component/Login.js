@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
 import "./auth.css";
-import { login, clearAuthState } from "../../actions/auth";
+import { login, clearAuthState } from "../../store/actions/auth";
 
 // This HOC returns a functional component which can use the useLocation() to get the history
 // We can't use useLocation() in call component, hence this we wrapped our Login component with it.

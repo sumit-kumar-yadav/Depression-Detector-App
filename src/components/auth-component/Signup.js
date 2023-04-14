@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { signup, clearAuthState } from "../../actions/auth";
+import { signup, clearAuthState } from "../../store/actions/auth";
 import { UserDetails } from "../index";
 
 class Signup extends Component {

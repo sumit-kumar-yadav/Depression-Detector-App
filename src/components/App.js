@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import { connect } from "react-redux";
-import { authenticateUser } from "../actions/auth";
+import { authenticateUser } from "../store/actions/auth";
 import { Home, Navbar, Login, Signup, PrivateRoute, Page404 } from "./";
 
 // Dummy profile component

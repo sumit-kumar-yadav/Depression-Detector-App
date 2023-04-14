@@ -9,8 +9,8 @@ import {
   LOG_OUT,
   CLEAR_AUTH_STATE,
 } from "./actionTypes";
-import { APIUrls } from "../helpers/urls";
-import { getFormBody } from "../helpers/utils";
+import { APIUrls } from "../../helpers/urls";
+import { getFormBody } from "../../helpers/utils";
 
 // Login
 export function startLogin() {
